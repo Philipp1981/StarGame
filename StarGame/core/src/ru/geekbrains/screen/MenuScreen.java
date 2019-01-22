@@ -10,50 +10,61 @@ import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.base.Base2DScreen;
 
 public class MenuScreen extends Base2DScreen {
-
-    SpriteBatch batch;
+private static final float V_LEN=2.5f;
+ //   SpriteBatch batch;
     Texture img;
     Texture img1;
 
-    Vector2 pos, pos1, v, v2, v3, v4, v5, v6, v7, v8, v22, v33, touchD;
+    Vector2 pos, v, pos1, v2, v3, v4, v5, v6, v7, v8, v22, v33, touchD, touch, buf;
 
 
     @Override
     public void show() {
         super.show();
-        batch = new SpriteBatch();
         img = new Texture("1.jpg");
         img1 = new Texture("badlogic.jpg");
-        pos = new Vector2(2,2);
+        pos = new Vector2(-0.5f, -0.5f);
+        v = new Vector2(0.001f, 0.001f);
+//        batch = new SpriteBatch();
+//        batch.getProjectionMatrix().idt();
+
         pos1=new Vector2(0, 0);
-        v=new Vector2(1,1);
-        v2=new Vector2(0,2);
-        v22=new Vector2(2, 0);
-        v3=new Vector2(0,-2);
-        v33=new Vector2(-2, 0);
+        v2=new Vector2(0,0.0002f);
+        v22=new Vector2(0.0002f, 0);
+        v3=new Vector2(0,-0.0002f);
+        v33=new Vector2(-0.0002f, 0);
         v4=new Vector2();
         v5=new Vector2();
         v6=new Vector2();
         v7=new Vector2();
         v8=new Vector2();
         touchD=new Vector2();
-
+        touch=new Vector2();
+        buf=new Vector2();
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+
+        Gdx.gl.glClearColor(0.5f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.setColor(0.7f, 0.7f, 0.7f, 0.9f);
-        batch.draw(img, 0, 0);
-        batch.draw(img1, pos.x, pos.y);
-
+        batch.draw(img, -1f, -1f, 2f, 2f);
+        batch.draw(img1, pos.x, pos.y, 0.25f, 0.25f);
         batch.end();
+        pos.add(v);
 
 
- //       pos.add(v);
+        // следуюзий блок-часть ДЗ2, где нужно было реализовать остановку в точке тачдаун, я не осилил, дописал после вебинара
+        buf.set(touch);
+        if(buf.cpy().sub(pos).len()>V_LEN) {
+            pos.add(v);
+        }else {
+            pos.set(buf);
+        }
+
+
         pos.add(v4);
         pos.add(v5);
         pos.add(v6);
@@ -61,20 +72,35 @@ public class MenuScreen extends Base2DScreen {
         pos.add(v8);
 
 
-//        if (Gdx.graphics.getWidth() - 256 > pos.x && Gdx.graphics.getHeight() - 256 > pos.y) {
+//        if (screenBounds.getWidth() - 0.00025f > pos.x && screenBounds.getHeight() - 0.00025f > pos.y) {
 //            pos.add(v);
 //        }
     }
 
+
+// - мой вариант реализации движения к точке тачдауна в дз2 (+после урока дописал Ваш вариант)
+//    @Override
+//    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+//        System.out.println("touchDown: "+screenX+" "+(Gdx.graphics.getHeight()-screenY));
+////        touchD=new Vector2(screenX, (Gdx.graphics.getHeight()-screenY));
+////        v4 = touchD.sub(pos);
+//        touchD.set(screenX-256, (Gdx.graphics.getHeight()-screenY));
+//        v4.set(touchD.cpy().sub(pos).setLength(V_LEN));
+// //       v4.nor();
+//        return super.touchDown(screenX, screenY, pointer, button);
+//    }
+
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        System.out.println("touchDown: "+screenX+" "+(Gdx.graphics.getHeight()-screenY));
-        touchD=new Vector2(screenX, (Gdx.graphics.getHeight()-screenY));
-        v4 = touchD.sub(pos);
+    public boolean touchDown(Vector2 touch, int pointer) {
+        System.out.println("touchDown screenX = " + pos.x + " screenY = " + pos.y);
+        touch.set(pos.x, screenBounds.getHeight() - pos.y).mul(screenToWorlds);
+        v4 =touch.sub(pos);
         v4.nor();
-        return super.touchDown(screenX, screenY, pointer, button);
+        return true;//super.touchDown(touch, pointer);
     }
 
+//  не понял как, но получается таскать картинку по экрану тачдрагом
+    // следующий блок- управление кнопками-реализовал коряво)))
     @Override
     public boolean keyDown(int keycode) {
         System.out.println("keyDown keycode= " + keycode);
@@ -82,9 +108,9 @@ public class MenuScreen extends Base2DScreen {
             switch (keycode)
             {
                 case Input.Keys.UP:
-                v5 = v2.sub(pos1);
-                v5.nor();
-                break;
+                    v5 = v2.sub(pos1);
+                    v5.nor();
+                    break;
                 case Input.Keys.DOWN:
                     v6 = v3.sub(pos1);
                     v6.nor();
@@ -108,12 +134,25 @@ public class MenuScreen extends Base2DScreen {
 
     @Override
     public void dispose() {
-        batch.dispose();
         img.dispose();
-        img1.dispose();
         super.dispose();
     }
 
-
 }
+
+//    @Override
+//    public void resize(int width, int height) {
+//        super.resize(width, height);
+//    }
+//
+//    @Override
+//    public void dispose() {
+// //       batch.dispose();
+//        img.dispose();
+//        img1.dispose();
+//        super.dispose();
+//    }
+
+
+
 
