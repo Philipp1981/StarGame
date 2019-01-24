@@ -13,13 +13,13 @@ import ru.geekbrains.math.Rect;
 
 public class Base2DScreen implements Screen, InputProcessor {
     protected SpriteBatch batch;
-    protected Rect screenBounds; // задаем границы  области рисования в пикселях
-    protected Rect worldBounds; // задаем границы  области мировых координат
-    protected Rect glBounds; // задаем дефолтные границы  проекции мир-gl
-    protected Matrix4 worldToGl;
-    protected Matrix3 screenToWorlds;
+    private Rect screenBounds; // задаем границы  области рисования в пикселях
+    private Rect worldBounds; // задаем границы  области мировых координат
+    private Rect glBounds; // задаем дефолтные границы  проекции мир-gl
+    private Matrix4 worldToGl;
+    private Matrix3 screenToWorlds;
 
-    protected Vector2 touch;
+    private Vector2 touch;
 
     @Override
     public void show() {

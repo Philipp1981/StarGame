@@ -1,4 +1,0 @@
-#Tue Jan 15 19:21:51 MSK 2019
-base.0=C\:\\Users\\Philipp\\Documents\\StarGame\\android\\build\\intermediates\\transforms\\dexMerger\\debug\\10
-path.0=classes.dex
-renamed.0=classes.dex

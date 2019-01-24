@@ -38,7 +38,7 @@ ADDED from C:\Users\Philipp\Documents\StarGame\android\AndroidManifest.xml:5:5-2
 activity#ru.geekbrains.AndroidLauncher
 ADDED from C:\Users\Philipp\Documents\StarGame\android\AndroidManifest.xml:12:9-21:20
 	android:screenOrientation
-		ADDED from C:\Users\Philipp\Documents\StarGame\android\AndroidManifest.xml:15:13-50
+		ADDED from C:\Users\Philipp\Documents\StarGame\android\AndroidManifest.xml:15:13-49
 	android:label
 		ADDED from C:\Users\Philipp\Documents\StarGame\android\AndroidManifest.xml:14:13-45
 	android:configChanges
