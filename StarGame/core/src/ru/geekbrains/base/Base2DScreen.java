@@ -16,7 +16,7 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
     protected SpriteBatch batch;
 
     private Rect screenBounds; // границы области рисования в пикселях
-    private Rect worldBounds; // границы проекции мировых координат
+    protected Rect worldBounds; // границы проекции мировых координат
     private Rect glBounds; // дефолтные границы проекции мир - gl
 
     private Matrix4 worldToGl;
@@ -112,10 +112,13 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
         return false;
     }
 
+
     public boolean touchDown(Vector2 touch, int pointer) {
         System.out.println("touchDown touch.x = " + touch.x + " touch.y = " + touch.y);
         return false;
     }
+
+
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {

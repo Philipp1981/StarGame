@@ -1,5 +1,6 @@
 package ru.geekbrains.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,8 +25,12 @@ public class MenuScreen extends Base2DScreen {
     private PlayBtn playBtn;
     private boolean playPressed;
     private boolean stopPressed;
+    private Game game;
 
 
+    public MenuScreen (Game game){
+        this.game=game;
+    }
 
     @Override
     public void show() {
@@ -35,7 +40,7 @@ public class MenuScreen extends Base2DScreen {
         atlas = new TextureAtlas("textures/test.pack");
 //        atlas = new TextureAtlas("textures/menuAtlas.tpack");
         stopBtn = new StopBtn(atlas);
-        playBtn = new PlayBtn(atlas);
+        playBtn = new PlayBtn(atlas, game);
         star = new Star[256];
         for (int i = 0; i < star.length; i++) {
             star[i] = new Star(atlas);
@@ -53,6 +58,9 @@ public class MenuScreen extends Base2DScreen {
         for (int i = 0; i < star.length; i++) {
             star[i].update(delta);
         }
+//        stopBtn.draw(batch);
+//        playBtn.draw(batch);
+//        batch.end();
     }
 
     public void draw() {
@@ -74,6 +82,8 @@ public class MenuScreen extends Base2DScreen {
         for (int i = 0; i < star.length; i++) {
             star[i].resize(worldBounds);
         }
+        stopBtn.resize(worldBounds);
+        playBtn.resize(worldBounds);
     }
 
     @Override
@@ -85,31 +95,15 @@ public class MenuScreen extends Base2DScreen {
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer) {
-        if (touch.x >= playBtn.getLeft() && touch.x <= playBtn.getRight() && touch.y >= playBtn.getBottom() && touch.y <= playBtn.getTop()) {
-            this.playPressed = true;
-            playBtn.setHeightProportion(0.1f);
-        }
-
-        if (touch.x >= stopBtn.getLeft() && touch.x <= stopBtn.getRight() && touch.y >= stopBtn.getBottom() && touch.y <= stopBtn.getTop()) {
-            stopPressed = true;
-            stopBtn.setHeightProportion(0.1f);
-        }
-
+        stopBtn.touchDown(touch, pointer);
+        playBtn.touchDown(touch, pointer);
         return super.touchDown(touch, pointer);
     }
 
     @Override
     public boolean touchUp(Vector2 touch, int pointer) {
-        this.playPressed = false;
-        playBtn.setHeightProportion(0.06f);
-
-        if (touch.x >= stopBtn.getLeft() && touch.x <= stopBtn.getRight() && touch.y >= stopBtn.getBottom() && touch.y <= stopBtn.getTop()) {
-            stopPressed = true;
-            System.exit(0);
-        } else {
-            stopPressed = false;
-            stopBtn.setHeightProportion(0.06f);
-        }
+        stopBtn.touchUp(touch, pointer);
+        playBtn.touchUp(touch, pointer);
         return super.touchUp(touch, pointer);
     }
 }

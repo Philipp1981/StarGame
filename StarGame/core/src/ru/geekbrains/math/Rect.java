@@ -1,6 +1,7 @@
 package ru.geekbrains.math;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Matrix3;
 
 /**
  * Прямоугольник
