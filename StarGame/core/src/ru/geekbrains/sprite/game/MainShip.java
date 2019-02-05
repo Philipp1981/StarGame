@@ -2,12 +2,14 @@ package ru.geekbrains.sprite.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.math.Rect;
 import ru.geekbrains.pool.BulletPool;
+import ru.geekbrains.pool.ExplosionPool;
 
 public class MainShip extends Ship {
 
@@ -17,25 +19,30 @@ public class MainShip extends Ship {
 
     private boolean isPressedLeft;
     private boolean isPressedRight;
-
+    Music music;
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
+    private boolean isDestroyed;
 
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool) {
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
         this.bulletRegion = atlas.findRegion("bulletMainShip");
         this.bulletPool = bulletPool;
+        this.explosionPool = explosionPool;
         this.reloadInterval = 0.2f;
+ //       this.shootSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser.wav"));
         this.shootSound = Gdx.audio.newSound(Gdx.files.internal("shootSound.mp3"));
-        Sound shipSound = Gdx.audio.newSound(Gdx.files.internal("shipSound.mp3"));
-        long d = shipSound.play(1.9f);
-        shipSound.setPitch(d, 1.7f);
-        shipSound.setLooping(d, true);
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("shipSound.mp3"));
+        music.setLooping(true);
+        music.setVolume(1f);
+        music.play();
+   //     Sound shipSound = Gdx.audio.newSound(Gdx.files.internal("shipSound.mp3"));
         setHeightProportion(0.15f);
         this.bulletV = new Vector2(0, 0.5f);
         this.bulletHeight = 0.01f;
         this.damage = 1;
-        this.hp = 100;
+        this.hp = 10;
     }
 
     @Override
@@ -55,6 +62,7 @@ public class MainShip extends Ship {
         }
         if (getRight() > worldBounds.getRight()) {
             setRight(worldBounds.getRight());
+
             stop();
         }
         if (getLeft() < worldBounds.getLeft()) {
@@ -109,6 +117,7 @@ public class MainShip extends Ship {
             if (leftPointer != INVALID_POINTER) return false;
             leftPointer = pointer;
             moveLeft();
+
         } else {
             if (rightPointer != INVALID_POINTER) return false;
             rightPointer = pointer;
@@ -137,6 +146,22 @@ public class MainShip extends Ship {
         return super.touchUp(touch, pointer);
     }
 
+    public boolean isBulletCollision(Rect bullet) {
+        return !(bullet.getRight() < getLeft()
+                || bullet.getLeft() > getRight()
+                || bullet.getBottom() > pos.y
+                || bullet.getTop() < getBottom()
+        );
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        boom();
+        isDestroyed=true;
+        music.stop();
+    }
+
     private void moveRight() {
         v.set(v0);
     }
@@ -150,6 +175,7 @@ public class MainShip extends Ship {
     }
 
 }
+
 
 
 //

@@ -2,6 +2,7 @@ package ru.geekbrains.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -11,14 +12,16 @@ import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.base.Base2DScreen;
 import ru.geekbrains.math.Rect;
 import ru.geekbrains.sprite.Background;
+import ru.geekbrains.sprite.NewGame;
 import ru.geekbrains.sprite.Star;
 import ru.geekbrains.sprite.menu.PlayBtn;
 import ru.geekbrains.sprite.menu.StopBtn;
 
 public class MenuScreen extends Base2DScreen {
 
-    private TextureAtlas atlas;
+    private TextureAtlas atlas, atlas1;
     private Texture bg;
+    private NewGame newGame;
     private Background background;
     private Star star[];
     private StopBtn stopBtn;
@@ -29,7 +32,9 @@ public class MenuScreen extends Base2DScreen {
 
 
     public MenuScreen (Game game){
+
         this.game=game;
+
     }
 
     @Override
@@ -38,12 +43,15 @@ public class MenuScreen extends Base2DScreen {
         bg = new Texture("textures/bg.png");
         background = new Background(new TextureRegion(bg));
         atlas = new TextureAtlas("textures/test.pack");
-//        atlas = new TextureAtlas("textures/menuAtlas.tpack");
+        atlas1 = new TextureAtlas("textures/mainAtlas.tpack");
+        newGame = new NewGame(atlas1);
         stopBtn = new StopBtn(atlas);
         playBtn = new PlayBtn(atlas, game);
+
         star = new Star[256];
         for (int i = 0; i < star.length; i++) {
             star[i] = new Star(atlas);
+
         }
     }
 
@@ -58,9 +66,6 @@ public class MenuScreen extends Base2DScreen {
         for (int i = 0; i < star.length; i++) {
             star[i].update(delta);
         }
-//        stopBtn.draw(batch);
-//        playBtn.draw(batch);
-//        batch.end();
     }
 
     public void draw() {
@@ -68,11 +73,13 @@ public class MenuScreen extends Base2DScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
+        newGame.draw(batch);
         stopBtn.draw(batch);
         playBtn.draw(batch);
         for (int i = 0; i < star.length; i++) {
             star[i].draw(batch);
         }
+
         batch.end();
     }
 
@@ -84,12 +91,15 @@ public class MenuScreen extends Base2DScreen {
         }
         stopBtn.resize(worldBounds);
         playBtn.resize(worldBounds);
+        newGame.resize(worldBounds);
     }
 
     @Override
     public void dispose() {
         bg.dispose();
         atlas.dispose();
+        atlas1.dispose();
+        music1.dispose();
         super.dispose();
     }
 

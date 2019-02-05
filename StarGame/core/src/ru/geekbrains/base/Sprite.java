@@ -68,6 +68,8 @@ public class Sprite extends Rect {
         );
     }
 
+
+
     public float getAngle() {
         return angle;
     }
@@ -83,6 +85,7 @@ public class Sprite extends Rect {
     public void setScale(float scale) {
         this.scale = scale;
     }
+
 
     public void destroy(){
        this.isDestroyed=true;

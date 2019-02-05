@@ -7,12 +7,13 @@ import ru.geekbrains.base.Sprite;
 
 public abstract class ScaledTouchUpButton extends Sprite {
 
-    private static final float PRESS_SCALE = 0.9f;
+    private static final float PRESS_SCALE = 0.8f;
 
     private int pointer;
     private boolean isPressed;
 
     public ScaledTouchUpButton(TextureRegion region) {
+
         super(region);
     }
 

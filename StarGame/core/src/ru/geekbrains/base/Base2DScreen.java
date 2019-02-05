@@ -3,6 +3,7 @@ package ru.geekbrains.base;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
@@ -21,7 +22,7 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
 
     private Matrix4 worldToGl;
     private Matrix3 screenToWorlds;
-
+    protected Music music1;
     private Vector2 touch;
 
     @Override
@@ -35,6 +36,10 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
         this.worldToGl = new Matrix4();
         this.screenToWorlds = new Matrix3();
         touch = new Vector2();
+        music1 = Gdx.audio.newMusic(Gdx.files.internal("music1.mp3"));
+        music1.setLooping(true);
+        music1.setVolume(0.1f);
+        music1.play();
     }
 
     @Override

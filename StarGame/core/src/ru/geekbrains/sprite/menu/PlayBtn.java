@@ -8,11 +8,12 @@ import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.math.Rect;
 import ru.geekbrains.math.Rnd;
 import ru.geekbrains.screen.GameScreen;
+import ru.geekbrains.screen.MenuScreen;
 
 public class PlayBtn extends ScaledTouchUpButton {
 
     private Rect worldBounds;
-    private Vector2 point = new Vector2();
+//    private Vector2 point = new Vector2();
     private Game game;
 
     public PlayBtn(TextureAtlas atlas, Game game) {
@@ -29,9 +30,6 @@ public class PlayBtn extends ScaledTouchUpButton {
     public void update(float delta) {
     }
 
-//    private void checkAndHandleBounds() {
-//    }
-
 
     @Override
     public void resize(Rect worldBounds) {
@@ -45,10 +43,13 @@ public class PlayBtn extends ScaledTouchUpButton {
         game.setScreen(new GameScreen());
     }
 
+
     @Override
     public boolean touchDown(Vector2 touch, int pointer) {
         return super.touchDown(touch, pointer);
     }
+
+
 //    @Override
 //    public boolean touchUp(Vector2 touch, int pointer) {
 ////        stopBtn.touchUp(touch, pointer);
