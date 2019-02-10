@@ -1,0 +1,41 @@
+package ru.geekbrains.pool;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+
+import ru.geekbrains.base.SpritesPool;
+import ru.geekbrains.math.Rect;
+import ru.geekbrains.sprite.game.Enemy;
+import ru.geekbrains.sprite.game.MainShip;
+
+public class EnemyPool extends SpritesPool<Enemy> {
+
+    private Sound shootSound;
+    private Music shipSound;
+    private BulletPool bulletPool;
+    private Rect worldBounds;
+    private ExplosionPool explosionPool;
+    private MainShip mainShip;
+
+    public EnemyPool(BulletPool bulletPool, Rect worldBounds, ExplosionPool explosionPool, MainShip mainShip) {
+
+        this.bulletPool = bulletPool;
+        this.explosionPool = explosionPool;
+        this.worldBounds = worldBounds;
+        this.mainShip = mainShip;
+    }
+
+    @Override
+    protected Enemy newObject() {
+        return new Enemy(shootSound, shipSound, bulletPool, explosionPool, worldBounds, mainShip);
+
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        shootSound.dispose();
+        shipSound.dispose();
+    }
+}
